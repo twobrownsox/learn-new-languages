@@ -55,6 +55,46 @@ public class Main {
         result %= 3;
         System.out.println("8 % 3 = " + result); // 8 % 3 = 2
 
+        boolean isAlien = false;
+        if (isAlien == false)
+            System.out.println("It is not an alien"); // only one line is conditionally  executed without a code block
+
+        // always use a code block
+        if (isAlien == false) {
+            System.out.println("It is not an alien");
+            System.out.println("and I'm scared of aliens");
+        }
+
+        int topScore = 80;
+        if (topScore < 100) { // = != > >= < <=
+            System.out.println("You've got the high score");
+        }
+
+        int secondTopScore = 95;
+        if ((topScore > secondTopScore) && (topScore < 100)) { // && -> AND
+            System.out.println("Greater than second top score and less than 100");
+        }
+
+        if ((topScore > 90) || (secondTopScore <= 90)) {
+            System.out.println("Either or both of the conditions are true");
+        }
+
+        int newValue = 50;
+        if (newValue == 50) {
+            System.out.println("This is true");
+        }
+
+        boolean isCar = false;
+//        if (isCar == true) { // if using single = , true is assigned to isCar, so message is displayed
+        if (isCar) { // use short version to avoid using incorrect = or ==
+            System.out.println("This is Car");
+        }
+        isCar = true;
+        boolean wasCar = isCar ? true : false;
+        if (wasCar) {
+            System.out.println("wasCar is true");
+        }
+
     }
 
 }
