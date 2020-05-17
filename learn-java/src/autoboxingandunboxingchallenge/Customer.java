@@ -7,17 +7,29 @@ public class Customer {
     private String customerName;
     private ArrayList<Double> transactions;
 
-    public Customer(String customerName) {
+    public Customer(String customerName, double initialAmount) {
         this.customerName = customerName;
         this.transactions = new ArrayList<Double>();
+        addTransaction(initialAmount);
     }
 
     public String getCustomerName() {
         return customerName;
     }
 
-    public void postTransaction(double amount) {
+    public ArrayList<Double> getTransactions() {
+        return transactions;
+    }
+
+    public void addTransaction(double amount) {
         this.transactions.add(amount);
+    }
+
+    public void showTransactions() {
+        System.out.println("Transactions for " + this.customerName + ":");
+        for (int i=0; i<this.transactions.size(); i++) {
+            System.out.println(this.transactions.get(i));
+        }
     }
 
     public double getBalance() {
@@ -26,10 +38,6 @@ public class Customer {
             balance += this.transactions.get(i);
         }
         return balance;
-    }
-
-    public ArrayList<Double> getTransactions() {
-        return transactions;
     }
 
 }

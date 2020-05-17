@@ -22,7 +22,7 @@ public class Main {
                     showInstructions();
                     break;
                 case 1:
-                    listAllCustomers();
+                    bank.listAllCustomers();
                     break;
                 case 2:
                     addBranch();
@@ -31,7 +31,7 @@ public class Main {
                     addCustomer();
                     break;
                 case 4:
-                    postCustomerTransaction();
+                    addCustomerTransaction();
                     break;
                 case 5:
                     showCustomerBalance();
@@ -63,98 +63,62 @@ public class Main {
         System.out.println("\t 7 - Quit");
     }
 
-    private static void listAllCustomers() {
-        System.out.println("All Customers: ");
-        for (int i=0; i<bank.getBranches().size(); i++) {
-            Branch branch = bank.getBranches().get(i);
-            for (int j=0; j<branch.getCustomers().size(); j++) {
-                Customer customer = branch.getCustomers().get(j);
-                System.out.println("Branch " + branch.getBranchName() + " Customer " + customer.getCustomerName() + " Balance " + customer.getBalance());
-            }
-        }
-    }
-
     private static void addBranch() {
-        System.out.print("Enter Branch Name: ");
-        String branchName = scanner.nextLine();
+        String branchName = getStringInput("Enter Branch Name: ");
         bank.addBranch(branchName);
     }
 
     private static void addCustomer() {
-
-        System.out.print("Enter Branch Name: ");
-        String branchName = scanner.nextLine();
-        System.out.print("Enter Customer Name: ");
-        String customerName = scanner.nextLine();
-        System.out.print("Enter Initial Amount: ");
-        double initialAmount = scanner.nextDouble();
-
-        Branch branch = bank.findBranch(branchName);
+        Branch branch = bank.findBranch(getStringInput("Enter Branch Name: "));
         if (branch != null) {
-            bank.addCustomer(branch, customerName, initialAmount);
-        } else {
-            System.out.println("Branch " + branchName + " not found");
+            String customerName = getStringInput("Enter Customer Name: ");
+            double initialAmount = getDoubleInput("Enter Initial Amount: ");
+            branch.addCustomer(customerName,initialAmount);
         }
-
     }
 
-    public static void postCustomerTransaction() {
-
-        System.out.print("Enter Branch Name: ");
-        String branchName = scanner.nextLine();
-        System.out.print("Enter Customer Name: ");
-        String customerName = scanner.nextLine();
-        System.out.print("Enter Amount: ");
-        double amount = scanner.nextDouble();
-
-        Branch branch = bank.findBranch(branchName);
+    public static void addCustomerTransaction() {
+        Branch branch = bank.findBranch(getStringInput("Enter Branch Name: "));
         if (branch != null) {
-            Customer customer = branch.findCustomer(customerName);
+            Customer customer = branch.findCustomer(getStringInput("Enter Customer Name: "));
             if (customer != null) {
-                bank.addCustomerTransaction(branch,customer,amount);
-            } else {
-                System.out.println("Customer " + customerName + " not found at branch " + branchName);
+                customer.addTransaction(getDoubleInput("Enter Amount: "));
             }
         }
 
     }
 
     private static void showCustomerBalance() {
-
-        System.out.print("Enter Branch Name: ");
-        String branchName = scanner.nextLine();
-        System.out.print("Enter Customer Name: ");
-        String customerName = scanner.nextLine();
-
-        Branch branch = bank.findBranch(branchName);
+        Branch branch = bank.findBranch(getStringInput("Enter Branch Name: "));
         if (branch != null) {
-            Customer customer = branch.findCustomer(customerName);
+            Customer customer = branch.findCustomer(getStringInput("Enter Customer Name: "));
             if (customer != null) {
-                double balance = bank.getCustomerBalance(branch,customer);
-                if (balance >= 0) {
-                    System.out.println("Balance is " + balance);
-                } else {
-                    System.out.println("Error getting balance");
-                }
+                System.out.println("Balance for customer " + customer.getCustomerName() + " is " + customer.getBalance());
             }
         }
 
     }
 
     private static void showCustomerTransactions() {
-
-        System.out.print("Enter Branch Name: ");
-        String branchName = scanner.nextLine();
-        System.out.print("Enter Customer Name: ");
-        String customerName = scanner.nextLine();
-
-        Branch branch = bank.findBranch(branchName);
+        Branch branch = bank.findBranch(getStringInput("Enter Branch Name: "));
         if (branch != null) {
-            Customer customer = branch.findCustomer(customerName);
+            Customer customer = branch.findCustomer(getStringInput("Enter Customer Name: "));
             if (customer != null) {
-                bank.showCustomerTransactions(branch,customer);
+                customer.showTransactions();
             }
         }
+    }
+
+    private static String getStringInput(String message) {
+        System.out.print(message);
+        return scanner.nextLine();
+    }
+
+    private static double getDoubleInput(String message) {
+        System.out.print(message);
+        double amount = scanner.nextDouble();
+        scanner.nextLine();
+        return amount;
     }
 
 }

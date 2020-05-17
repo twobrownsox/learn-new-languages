@@ -21,8 +21,7 @@ public class Bank {
     }
 
     public void addBranch (String branchName) {
-        Branch branch = findBranch(branchName);
-        if (branch == null) {
+        if (getBranchIndex(branchName) < 0) {
             this.branches.add(new Branch(branchName));
             System.out.println("Branch " + branchName + " added to Bank " + this.bankName);
         } else {
@@ -30,64 +29,34 @@ public class Bank {
         }
     }
 
-    public void addCustomer(Branch branch, String customerName, double initialAmount) {
-        if (this.branches.contains(branch)) {
-            Customer customer = branch.findCustomer(customerName);
-            if (customer == null) {
-                branch.addCustomer(customerName,initialAmount);
-            }
-        } else {
-            System.out.println("Branch " + branch.getBranchName() + " does not exists at Bank " + this.bankName);
+    public Branch findBranch(String branchName) {
+        int index = getBranchIndex(branchName);
+        if (index >= 0) {
+            return this.branches.get(index);
         }
+        System.out.println("Branch " + branchName + " not found");
+        return null;
     }
 
-    public void addCustomerTransaction(Branch branch, Customer customer, double amount) {
-        if (this.branches.contains(branch)) {
-            if (branch.getCustomers().contains(customer)) {
-                branch.addCustomerTransaction(customer, amount);
+    private int getBranchIndex(String branchName) {
+        for (int i=0; i<this.branches.size(); i++) {
+            if (this.branches.get(i).getBranchName().equals(branchName)) {
+                return i;
             }
-        } else {
-            System.out.println("Branch " + branch.getBranchName() + " does not exists at Bank " + this.bankName);
-        }
-
-    }
-
-    public double getCustomerBalance(Branch branch, Customer customer) {
-        if (this.branches.contains(branch)) {
-            if (branch.getCustomers().contains(customer)) {
-                return customer.getBalance();
-            } else {
-                System.out.println("Customer " + customer.getCustomerName() + " does not exist at branch " + branch.getBranchName());
-            }
-        } else {
-            System.out.println("Branch " + branch.getBranchName() + " does not exists at Bank " + this.bankName);
         }
         return -1;
     }
 
-    public void showCustomerTransactions(Branch branch, Customer customer) {
-        if (this.branches.contains(branch)) {
-            if (branch.getCustomers().contains(customer)) {
-                System.out.println("Transactions for " + customer.getCustomerName());
-                for (int i=0; i<customer.getTransactions().size(); i++) {
-                    System.out.println(customer.getTransactions().get(i));
-                }
-            } else {
-                System.out.println("Customer " + customer.getCustomerName() + " does not exist at branch " + branch.getBranchName());
-            }
-            System.out.println("Branch " + branch.getBranchName() + " does not exists at Bank " + this.bankName);
-        }
-
-    }
-
-    public Branch findBranch(String branchName) {
+    public void listAllCustomers() {
+        System.out.println("All Customers: ");
         for (int i=0; i<this.branches.size(); i++) {
             Branch branch = this.branches.get(i);
-            if (branch.getBranchName().equals(branchName)) {
-                return branch;
+            System.out.println("Branch " + branch.getBranchName() + ":");
+            for (int j=0; j<branch.getCustomers().size(); j++) {
+                Customer customer = branch.getCustomers().get(j);
+                System.out.println("\t" + customer.getCustomerName() + " Balance " + customer.getBalance());
             }
         }
-        return null;
     }
 
 }
