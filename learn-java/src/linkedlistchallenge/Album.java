@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class Album {
 
-    private String title;
+    private String name;
+    private String artist;
     private ArrayList<Song> songs;
 
-    public Album(String title) {
-        this.title = title;
+    public Album(String name, String artist) {
+        this.name = name;
+        this.artist = artist;
         this.songs = new ArrayList<Song>();
     }
 
@@ -16,11 +18,15 @@ public class Album {
         this.songs.add(song);
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return this.name;
     }
 
-    public ArrayList<Song> getSongs() {
-        return songs;
+    public ArrayList<Song> getSongs(){
+        return this.songs;
+    }
+
+    public String toString() {
+        return this.name + " by " + this.artist;
     }
 }

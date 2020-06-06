@@ -80,12 +80,15 @@ public class Main {
 
     private static void addAlbum() {
         System.out.print("\nEnter Album Title: ");
-        String albumTitle = scanner.nextLine();
-        if (albumTitle.equals("")) {
+        String name = scanner.nextLine();
+        if (name.equals("")) {
             System.out.println("Album title not entered. album not added");
         } else {
-            albumList.add(new Album(albumTitle));
-            System.out.println("New album added: " + albumTitle);
+            System.out.print("Enter Artist Name: ");
+            String artist = scanner.nextLine();
+            Album album = new Album(name,artist);
+            albumList.add(album);
+            System.out.println("New album added: " + album.toString());
         }
     }
 
@@ -94,8 +97,12 @@ public class Main {
         if (albumList.size() > 0) {
 
             System.out.println("\nSelect an album:");
-            for (int i = 0; i < albumList.size(); i++) {
-                System.out.println(i + " - " + albumList.get(i).getTitle());
+//            for (int i = 0; i < albumList.size(); i++) {
+//                System.out.println(i + " - " + albumList.get(i).toString());
+//            }
+            int i = 0;
+            for (Album album: albumList) {
+                System.out.println(i++ + " - " + album.toString());
             }
 
             System.out.print("Enter album number: ");
@@ -112,7 +119,7 @@ public class Main {
                 scanner.nextLine();
                 album.addSong(new Song(title, duration));
 
-                System.out.println(Song.toString(title,duration) + " added to album " + album.getTitle());
+                System.out.println(Song.toString(title,duration) + " added to album " + album.toString());
             } else {
                 System.out.println("Invalid option. No album found");
             }
@@ -125,12 +132,20 @@ public class Main {
 
     private static void addToPlaylist() {
 
-        for (int i=0; i<albumList.size(); i++) {
-            System.out.println(i + " - " + albumList.get(i).getTitle());
-            Album album = albumList.get(i);
-            for (int j=0; j<album.getSongs().size(); j++) {
-                Song song = album.getSongs().get(j);
-                System.out.println("\t" + j + " - " + song.toString());
+//        for (int i=0; i<albumList.size(); i++) {
+//            System.out.println(i + " - " + albumList.get(i).toString());
+//            Album album = albumList.get(i);
+//            for (int j=0; j<album.getSongs().size(); j++) {
+//                Song song = album.getSongs().get(j);
+//                System.out.println("\t" + j + " - " + song.toString());
+//            }
+//        }
+        int i = 0;
+        for (Album album: albumList) {
+            System.out.println(i++ + " - " + album.toString());
+            int j = 0;
+            for (Song song: album.getSongs()) {
+                System.out.println("\t" + j++ + " - " + song.toString());
             }
         }
 
@@ -148,7 +163,7 @@ public class Main {
                 playList.add(song);
                 System.out.println("Song " + song.toString() + " added to Playlist");
             } else {
-                System.out.println("Invalid option. Song not found on album " + album.getTitle());
+                System.out.println("Invalid option. Song not found on album " + album.toString());
             }
         } else {
             System.out.println("Invalid option. No album found");
