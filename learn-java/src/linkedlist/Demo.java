@@ -90,7 +90,7 @@ public class Demo {
             scanner.nextLine();
             switch (action) {
                 case 0:
-                    System.out.println("Holiday (Vation) over");
+                    System.out.println("Holiday (Vacation) over");
                     quit = true;
                     break;
                 case 1:
