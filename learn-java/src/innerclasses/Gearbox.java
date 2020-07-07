@@ -14,6 +14,11 @@ public class Gearbox {
         this.maxGears = maxGears;
         this.gears = new ArrayList<Gear>();
         Gear neutral = new Gear(0,0.0);
+        this.gears.add(neutral);
+
+        for(int i=0; i<maxGears; i++) {
+            addGear(i, i*5.3);
+        }
     }
 
     public void operateClutch(boolean in) {
@@ -26,15 +31,7 @@ public class Gearbox {
         }
     }
 
-    public double wheelSpeed(int revs) {
-        if (this.clutchIsIn) {
-            System.out.println("Scream!!!");
-            return 0.00;
-        }
-        return revs * gears.get(this.currentGear).getRatio();
-    }
-
-    private void changeGear(int newGear) {
+    public void changeGear(int newGear) {
         if ((newGear >= 0) && (newGear < this.gears.size()) && this.clutchIsIn) {
             this.currentGear = newGear;
             System.out.println("Gear " + newGear + " selected");
@@ -44,7 +41,15 @@ public class Gearbox {
         }
     }
 
-//    public class Gear {
+    public double wheelSpeed(int revs) {
+        if (this.clutchIsIn) {
+            System.out.println("Scream!!!");
+            return 0.00;
+        }
+        return revs * gears.get(this.currentGear).getRatio();
+    }
+
+    //    public class Gear {
     private class Gear {
         private int gearNumber; // "Shadowing" the gearNumber field in the Gearbox class. This is NOT recommended, so are going to rename Gearbox field to currentGear
         private double ratio;
